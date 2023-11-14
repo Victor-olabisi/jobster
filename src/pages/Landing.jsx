@@ -21,7 +21,7 @@ const Landing = () => {
             porro nobis recusandae fugit aut impedit magnam officia qui natus
             sit. Aperiam, eos!
           </p>
-          <Link to='register' className="btn btn-hero">login/register</Link>
+          <Link to='/register' className="btn btn-hero">login/register</Link>
         </div>
         <img src={main} alt="" className="img main-img" />
       </div>

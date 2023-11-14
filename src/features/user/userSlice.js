@@ -1,23 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import customFetch from "../../utils/customFetch";
-import { addUserLocalStorage } from "../../utils/localStorage";
+import { addUserLocalStorage, getUserFromLocalStorage } from "../../utils/localStorage";
 import { toast } from "react-toastify";
 
 
 
 
 const initialState = {
-    isLoading: true,
-    user:null
-}
+  isLoading: true,
+  user: getUserFromLocalStorage(),
+};
 
 // register user to the api
 export const registerUser = createAsyncThunk('registerUser',
     async (user, thunkAPI) => {
         try {
-            const resp = await customFetch.post("/auth/testingRegister", user);
+            const resp = await customFetch.post("/auth/register", user);
             return resp.data
-            console.log(resp.data);
         } catch (error) {
             return error
         }
@@ -26,11 +25,13 @@ export const registerUser = createAsyncThunk('registerUser',
         
     }
 )
+// login user
 export const loginUser = createAsyncThunk('loginUser',
     async (user, thunkAPI) => {
        try {
-            const resp = await customFetch.post("/auth/login", user);
-            console.log(resp);
+           const resp = await customFetch.post("/auth/login", user);
+           return resp.data
+            // console.log(resp);
        } catch (error) {
         return error
        }
@@ -47,15 +48,25 @@ const userSlice = createSlice({
         [registerUser.fulfilled]: (state, { payload }) => {
             const {user}= payload
             state.isLoading = false
-            console.log(payload);
-            toast.success(`hello there ${user.name}`)
-            addUserLocalStorage(user)
-            state.user = user
-
             // console.log(payload);
+            toast.success(`hello there ${user.name}`)
+            state.user = user
+            addUserLocalStorage(user)
+
         },
         [registerUser.rejected]: (state) => {
             
+        },
+        [loginUser.pending]: (state) => {
+           state.isLoading = true 
+        },
+        [loginUser.fulfilled]: (state, { payload }) => {
+            const {user}= payload
+            state.isLoading = false;
+            addUserLocalStorage(user)
+            state.user = user
+            toast.success(`welcome back there ${user.name}`)
+        
         }
 
     }

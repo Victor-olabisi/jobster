@@ -4,7 +4,9 @@ import Logo from "../component/Logo";
 import FormRow from "../component/FormRow";
 import { toast } from "react-toastify";
 import { registerUser, loginUser } from "../features/user/userSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, } from "react-redux";
+import {useNavigate} from 'react-router-dom'
+
 const initialState = {
   name: "",
   email: "",
@@ -15,7 +17,13 @@ const initialState = {
 const Register = () => {
   const [values, setValues] = useState(initialState);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const { user, isLoading } = useSelector((store) => store.user);
+  console.log(user);
 
+  
+  // console.log(user);
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
@@ -44,7 +52,14 @@ const Register = () => {
     }
     dispatch(registerUser({ name: name, email: email, password: password }));
   };
-  
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
+
+
   return (
     <Wrapper className="full-page">
       <form onSubmit={onSubmit} className="form">
@@ -83,6 +98,8 @@ const Register = () => {
         </p>
       </form>
     </Wrapper>
+
   );
+  
 };
 export default Register;
