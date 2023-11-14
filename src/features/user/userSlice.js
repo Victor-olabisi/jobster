@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import customFetch from "../../utils/customFetch";
+import { addUserLocalStorage } from "../../utils/localStorage";
+import { toast } from "react-toastify";
 
 
 
@@ -9,24 +11,54 @@ const initialState = {
     user:null
 }
 
-// post user to the api
+// register user to the api
 export const registerUser = createAsyncThunk('registerUser',
-    async(user, thunkAPI) => {
-        const resp = await customFetch.post("/auth/register", user);
-        console.log(resp);
-        // return resp.data
+    async (user, thunkAPI) => {
+        try {
+            const resp = await customFetch.post("/auth/testingRegister", user);
+            return resp.data
+            console.log(resp.data);
+        } catch (error) {
+            return error
+        }
+        
+        // return resp.dat
         
     }
 )
 export const loginUser = createAsyncThunk('loginUser',
-   async (user, thunkAPI) => {
-       const resp = await customFetch.post("/auth/login", user);
-       console.log(resp);
+    async (user, thunkAPI) => {
+       try {
+            const resp = await customFetch.post("/auth/login", user);
+            console.log(resp);
+       } catch (error) {
+        return error
+       }
+   
     }
 )
 const userSlice = createSlice({
     name: 'user',
-    initialState
+    initialState,
+    extraReducers: {
+        [registerUser.pending]: (state) => {
+           state.isLoading=true 
+        },
+        [registerUser.fulfilled]: (state, { payload }) => {
+            const {user}= payload
+            state.isLoading = false
+            console.log(payload);
+            toast.success(`hello there ${user.name}`)
+            addUserLocalStorage(user)
+            state.user = user
+
+            // console.log(payload);
+        },
+        [registerUser.rejected]: (state) => {
+            
+        }
+
+    }
 })
 
 
