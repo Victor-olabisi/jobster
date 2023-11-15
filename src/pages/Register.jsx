@@ -20,7 +20,7 @@ const Register = () => {
   const navigate = useNavigate();
   
   const { user, isLoading } = useSelector((store) => store.user);
-  console.log(user);
+  // console.log(user);
 
   
   // console.log(user);
@@ -87,7 +87,7 @@ const Register = () => {
           handleChange={handleChange}
         />
 
-        <button className="btn btn-block" type="submit">
+        <button className="btn btn-block" type="submit"  disabled={isLoading}>
           submit{" "}
         </button>
         <p>
