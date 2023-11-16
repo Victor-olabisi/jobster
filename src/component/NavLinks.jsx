@@ -19,7 +19,7 @@ const NavLinks = ({ toggleSidebar }) => {
             }}
             key={id}
           >
-            <span>{icon}</span>
+            <span className="icon">{icon}</span>
             {text}
           </NavLink>
         );

@@ -7,11 +7,7 @@ import {
 } from "../../utils/localStorage";
 import { toast } from "react-toastify";
 
-const initialState = {
-  isLoading: false,
-  isSidebarOpen: false,
-  user: getUserFromLocalStorage(),
-};
+
 
 // register user to the api
 export const registerUser = createAsyncThunk(
@@ -40,6 +36,14 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+const initialState = {
+  isLoading: false,
+  isSidebarOpen: false,
+  user: setTimeout(() => {
+    getUserFromLocalStorage()
+  }, 5000),
+};
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -72,10 +76,10 @@ const userSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       const { user } = payload;
-      state.isLoading = false;
       addUserLocalStorage(user);
+      state.isLoading = false;
       state.user = user;
-      toast.success(`welcome back there ${user.name}`);
+      // toast.success(`welcome back there ${user.name}`);
     },
   },
 });
