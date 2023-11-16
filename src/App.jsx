@@ -2,7 +2,7 @@ import { Landing, Register, Error } from "./pages"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Stat, SharedLayout, AllJobs, AddJobs, Profile } from "./pages/dashboard"
 // import ProtectedRouted from "./utils/ProtecteDRoute";
-import ProtectedRouted from "./utils/protectedRoute";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
 
@@ -12,9 +12,9 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRouted>
+            <ProtectedRoute>
               <SharedLayout />
-            </ProtectedRouted>
+            </ProtectedRoute>
           }
         >
           <Route index element={<Stat />} />

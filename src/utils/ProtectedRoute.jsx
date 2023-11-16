@@ -4,7 +4,7 @@ import {Navigate} from 'react-router-dom'
 
 
 
-const ProtectedRouted = ({children}) => {
+const ProtectedRoute = ({children}) => {
     const { user } = useSelector((store) => store.user)
     // const navigate = useNavigate()
     if (!user) {
@@ -13,4 +13,4 @@ const ProtectedRouted = ({children}) => {
     return children
 }
 
-export default ProtectedRouted
+export default ProtectedRoute

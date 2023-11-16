@@ -23,7 +23,7 @@ const Navbar = () => {
         </button>
         <div>
           <Logo />
-          <h2>dashboard</h2>
+          <h3>dashboard</h3>
         </div>
         <div className="btn-container">
           <button className="btn" onClick={()=>setShowLogout(!showLogout)}>
