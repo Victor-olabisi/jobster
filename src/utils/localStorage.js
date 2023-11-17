@@ -7,14 +7,16 @@ export const removerUserLocalStorage = () => {
 };
 
 export const getUserFromLocalStorage = () => {
-//   const result = localStorage.getItem("user");
-//     let user = null;
-//     if (!result === null) {
-//       user = JSON.parse(result);
-//       return user;
-//     }
-    // return user;
-  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
-
+  // const result = localStorage.getItem("user");
+  //   let user = null;
+  //   if (!result === null) {
+  //     user = JSON.parse(result);
+  //     return user;
+  //   }
+  // return user;
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
   return user;
+
 };
