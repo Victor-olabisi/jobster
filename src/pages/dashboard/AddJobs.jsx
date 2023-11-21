@@ -5,6 +5,7 @@ import FormRowSelect from "../../component/FormRowSelect";
 import { handleFormInput, clearValues } from "../../features/job/jobSlice";
 import { addJobs } from "../../features/job/jobSlice";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const AddJobs = () => {
   const {
@@ -18,6 +19,7 @@ const AddJobs = () => {
     jobTypeOptions,
     jobType,
   } = useSelector((store) => store.job);
+  const {user}= useSelector((store)=>store.user)
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -26,6 +28,10 @@ const AddJobs = () => {
 
     dispatch(handleFormInput({ name, value }));
   };
+
+  useEffect(() => {
+    dispatch(handleFormInput({name:'jobLocation',value:user.location}))
+  },[])
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!position || !company || !jobLocation) {
