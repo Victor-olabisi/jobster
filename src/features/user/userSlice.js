@@ -27,7 +27,11 @@ export const updateUserProfile = createAsyncThunk(
       });
       return resp.data;
     } catch (error) {
-      return error;
+      if (error.response.status === 401) {
+        thunkAPI.dispatch(logoutUser())
+        return thunkAPI.rejectWithValue('unauthorized! logging out ')
+      }
+      return thunkAPI.rejectWithValue(error.response.data.msg);
     }
   }
 );
@@ -55,9 +59,11 @@ export const loginUser = createAsyncThunk(
       return resp.data;
       // console.log(resp);
     } catch (error) {
+      
       return error;
     }
   }
+
 );
 
 const userSlice = createSlice({
@@ -112,8 +118,8 @@ const userSlice = createSlice({
       state.isLoading = false;
       toast.success('profile details updated')
     },
-    [updateUserProfile.rejected]: () => {
-      
+    [updateUserProfile.rejected]: (state) => {
+      state.isLoading= false
     }
   },
 });
