@@ -9,11 +9,11 @@ const JobContainer = () => {
 
     const { isLoading, jobs } = useSelector((store) => store.allJobs);
     const dispatch = useDispatch();
-    
-    useEffect(() => {
-        dispatch(getAllJobs());
-    }, []);
-    console.log(jobs);
+     useEffect(() => {
+       dispatch(getAllJobs());
+     }, []);
+     console.log(jobs);
+  
   if (isLoading) {
     return (
       <Wrapper>
@@ -26,6 +26,7 @@ const JobContainer = () => {
   //         <h2>no jOB to display </h2>
   //     </Wrapper>
   // }
+   
   return (
     <Wrapper>
       <h5>jobs info</h5>
