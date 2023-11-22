@@ -2,7 +2,11 @@ import Wrapper from "../../assets/wrappers/DashboardFormPage";
 import { useSelector, useDispatch } from "react-redux";
 import FormRow from "../../component/FormRow";
 import FormRowSelect from "../../component/FormRowSelect";
-import { handleFormInput, clearValues } from "../../features/job/jobSlice";
+import {
+  handleFormInput,
+  clearValues,
+  editJobs,
+} from "../../features/job/jobSlice";
 import { addJobs } from "../../features/job/jobSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -18,8 +22,9 @@ const AddJobs = () => {
     statusOptions,
     jobTypeOptions,
     jobType,
+    editJobId,
   } = useSelector((store) => store.job);
-  const {user}= useSelector((store)=>store.user)
+  const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -30,15 +35,24 @@ const AddJobs = () => {
   };
 
   useEffect(() => {
-    dispatch(handleFormInput({name:'jobLocation',value:user.location}))
-  },[])
+    dispatch(handleFormInput({ name: "jobLocation", value: user.location }));
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!position || !company || !jobLocation) {
       toast.error("please fill all values");
       return;
     }
-    dispatch(addJobs({position, company, jobLocation,jobType,status}))
+    if (isEditing) {
+      dispatch(
+        editJobs({
+          jobId: editJobId,
+          job: { position, company, jobLocation, jobType, status },
+        })
+      );
+      return;
+    }
+    dispatch(addJobs({ position, company, jobLocation, jobType, status }));
   };
   return (
     <Wrapper>
@@ -79,7 +93,11 @@ const AddJobs = () => {
           />
 
           <div className="btn-container">
-            <button className="btn btn-block clear-btn" type="button" onClick={()=>dispatch(clearValues())}>
+            <button
+              className="btn btn-block clear-btn"
+              type="button"
+              onClick={() => dispatch(clearValues())}
+            >
               clear{" "}
             </button>
             <button

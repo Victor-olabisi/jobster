@@ -12,20 +12,19 @@ const JobContainer = () => {
      useEffect(() => {
        dispatch(getAllJobs());
      }, []);
-     console.log(jobs);
   
   if (isLoading) {
     return (
       <Wrapper>
-        <div className="loading"></div>
+        <div className="loading loading-center"></div>
       </Wrapper>
     );
   }
-  // if (jobs.length === 0) {
-  //     return <Wrapper>
-  //         <h2>no jOB to display </h2>
-  //     </Wrapper>
-  // }
+  if (jobs.length === 0) {
+      return <Wrapper>
+          <h2>no jOB to display </h2>
+      </Wrapper>
+  }
    
   return (
     <Wrapper>

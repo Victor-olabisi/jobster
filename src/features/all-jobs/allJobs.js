@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import customFetch from "../../utils/customFetch";
 import { logoutUser } from "../user/userSlice";
+import jobSlice from "../job/jobSlice";
 
 const initialFiltersState = {
   search: "",
@@ -46,6 +47,14 @@ export const getAllJobs = createAsyncThunk(
 const allJobs = createSlice({
   name: "jobs",
   initialState,
+  reducer: {
+    showLoading: (state) => {
+      state.isLoading=true
+    },
+    hideLoading: (state) => {
+      state.isLoading= false
+    }
+  },
   extraReducers: {
     [getAllJobs.pending]: (state) => {
       state.isLoading = true;
@@ -53,7 +62,6 @@ const allJobs = createSlice({
     [getAllJobs.fulfilled]: (state, action) => {
       // console.log(action);
       const { jobs } = action.payload;
-      console.log(jobs);
       state.jobs = jobs;
 
       state.isLoading = false;
@@ -63,5 +71,6 @@ const allJobs = createSlice({
 });
 
 
+export const {showLoading, hideLoading} = allJobs.actions
 
 export default allJobs.reducer;
