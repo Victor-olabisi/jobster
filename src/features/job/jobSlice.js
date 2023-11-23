@@ -15,12 +15,11 @@ const initialState = {
   editJobId: "",
 };
 //  create jobs
-export const addJobs = createAsyncThunk("addJobs",addJobsThunk);
+export const addJobs =createAsyncThunk("addJobs",addJobsThunk);
 
 // delete jobs
 export const deleteJobs = createAsyncThunk(
   "deleteJobs", deleteJobThunk
-  
 );
 
 // edit jobs

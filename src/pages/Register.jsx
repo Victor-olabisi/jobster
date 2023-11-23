@@ -4,8 +4,8 @@ import Logo from "../component/Logo";
 import FormRow from "../component/FormRow";
 import { toast } from "react-toastify";
 import { registerUser, loginUser } from "../features/user/userSlice";
-import { useSelector, useDispatch, } from "react-redux";
-import {useNavigate} from 'react-router-dom'
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   name: "",
@@ -18,11 +18,11 @@ const Register = () => {
   const [values, setValues] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const { user, isLoading } = useSelector((store) => store.user);
+  console.log(isLoading);
   // console.log(user);
 
-  
   // console.log(user);
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -59,7 +59,6 @@ const Register = () => {
     }
   }, [user]);
 
-
   return (
     <Wrapper className="full-page">
       <form onSubmit={onSubmit} className="form">
@@ -73,7 +72,6 @@ const Register = () => {
             handleChange={handleChange}
           />
         )}
-
         <FormRow
           type={"email"}
           name={"email"}
@@ -86,9 +84,18 @@ const Register = () => {
           value={values.password}
           handleChange={handleChange}
         />
-
-        <button className="btn btn-block" type="submit"  disabled={isLoading}>
-          {isLoading ? 'submitting': 'submit'}
+        <button className="btn btn-block" type="submit" disabled={isLoading}>
+          {isLoading ? "submitting" : "submit"}
+        </button>{" "}
+        <button
+          className="btn btn-block btn-hipster"
+          type="button"
+          disabled={isLoading}
+          onClick={ ()=>dispatch(
+            loginUser({ email: "testUser@test.com", password: "secret" }))
+          }
+        >
+          {isLoading ? "loading..." : "demo"}
         </button>
         <p>
           {values.isMember ? 'don"t have an account yet' : "already a member"}
@@ -98,8 +105,6 @@ const Register = () => {
         </p>
       </form>
     </Wrapper>
-
   );
-  
 };
 export default Register;
