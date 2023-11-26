@@ -12,9 +12,8 @@ const initialFiltersState = {
   sortOptions: ["latest", "oldest", "a-z", "z-a"],
 };
 
-// initial state
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
@@ -58,12 +57,18 @@ export const showStat = createAsyncThunk('show/stat', async (_, thunkAPI) => {
 const allJobs = createSlice({
   name: "jobs",
   initialState,
-  reducer: {
+  reducers: {
     showLoading: (state) => {
       state.isLoading=true
     },
     hideLoading: (state) => {
       state.isLoading= false
+    },
+    clearFilter: (state) => {
+      return { ...state, ...initialFiltersState };
+    },
+    handleChange: (state, { payload: { name, value } }) => {
+      state[name]= value
     }
   },
   extraReducers: {
@@ -71,12 +76,10 @@ const allJobs = createSlice({
       state.isLoading = true;
     },
     [getAllJobs.fulfilled]: (state, action) => {
-      // console.log(action);
       const { jobs } = action.payload;
       state.jobs = jobs;
 
       state.isLoading = false;
-      // console.log(payload);
     },
     // stat
     [showStat.pending]: (state) => {
@@ -94,6 +97,6 @@ const allJobs = createSlice({
 });
 
 
-export const {showLoading, hideLoading} = allJobs.actions
+export const {showLoading, hideLoading,clearFilter, handleChange} = allJobs.actions
 
 export default allJobs.reducer;

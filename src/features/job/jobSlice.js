@@ -63,7 +63,11 @@ const jobSlice = createSlice({
     [editJobs.fulfilled]: (state) => {
       state.isLoading = false
       toast.success('job modified')
-    }
+    },
+
+    [deleteJobs.fulfilled]: (state) => {
+    toast.success('job deleted')
+  }
   },
 
 });
