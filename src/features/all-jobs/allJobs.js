@@ -36,6 +36,7 @@ export const getAllJobs = createAsyncThunk(
       if (error.response.status === 401) {
         thunkAPI.dispatch(logoutUser());
         return thunkAPI.rejectWithValue("unauthorized! logging out");
+
       }
       return thunkAPI.rejectWithValue(error.response.data.msg);
     }
@@ -69,6 +70,9 @@ const allJobs = createSlice({
     },
     handleChange: (state, { payload: { name, value } }) => {
       state[name]= value
+    },
+    changePage: (state, { payload }) => {
+      state.page = payload
     }
   },
   extraReducers: {
@@ -78,7 +82,8 @@ const allJobs = createSlice({
     [getAllJobs.fulfilled]: (state, action) => {
       const { jobs } = action.payload;
       state.jobs = jobs;
-
+      state.numOfPages = action.payload.numOfPages
+      state.totalJobs = action.payload.totalJobs
       state.isLoading = false;
     },
     // stat
@@ -97,6 +102,6 @@ const allJobs = createSlice({
 });
 
 
-export const {showLoading, hideLoading,clearFilter, handleChange} = allJobs.actions
+export const {showLoading, hideLoading,clearFilter, handleChange, changePage} = allJobs.actions
 
 export default allJobs.reducer;
