@@ -6,6 +6,8 @@ import {
   removerUserLocalStorage,
 } from "../../utils/localStorage";
 import { toast } from "react-toastify";
+import { clearFilter } from "../all-jobs/allJobs";
+import { clearValues } from "../job/jobSlice";
 
 const initialState = {
   isLoading: false,
@@ -28,8 +30,8 @@ export const updateUserProfile = createAsyncThunk(
       return resp.data;
     } catch (error) {
       if (error.response.status === 401) {
-        thunkAPI.dispatch(logoutUser())
-        return thunkAPI.rejectWithValue('unauthorized! logging out ')
+        thunkAPI.dispatch(logoutUser());
+        return thunkAPI.rejectWithValue("unauthorized! logging out ");
       }
       return thunkAPI.rejectWithValue(error.response.data.msg);
     }
@@ -59,12 +61,22 @@ export const loginUser = createAsyncThunk(
       return resp.data;
       // console.log(resp);
     } catch (error) {
-      
       return error;
     }
   }
-
 );
+
+// clear store thunk
+export const clearStore = createAsyncThunk("clearStore", async (message, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(logoutUser(message));
+    thunkAPI.dispatch(clearFilter());
+    thunkAPI.dispatch(clearValues());
+    return Promise.resolve();
+  } catch (error) {
+    return Promise.reject()
+  }
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -74,9 +86,10 @@ const userSlice = createSlice({
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
     },
-    logoutUser: (state) => {
+    logoutUser: (state, { payload }) => {
       state.user = null;
       state.isSidebarOpen = false;
+      toast.success(payload);
       removerUserLocalStorage();
     },
   },
@@ -116,11 +129,11 @@ const userSlice = createSlice({
       state.user = user;
 
       state.isLoading = false;
-      toast.success('profile details updated')
+      toast.success("profile details updated");
     },
     [updateUserProfile.rejected]: (state) => {
-      state.isLoading= false
-    }
+      state.isLoading = false;
+    },
   },
 });
 

@@ -6,15 +6,22 @@ import { useEffect } from "react";
 import PageBtnContainer from "./PageBtnContainer";
 
 const JobContainer = () => {
-  const { isLoading, jobs, numOfPages, totalJobs } = useSelector(
-    (store) => store.allJobs
-  );
-  console.log(jobs);
-  console.log(totalJobs);
+  const {
+    isLoading,
+    jobs,
+    numOfPages,
+    totalJobs,
+    search,
+    page,
+    searchStatus,
+    searchType,
+    sort,
+  } = useSelector((store) => store.allJobs);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllJobs());
-  }, []);
+  }, [page, search, searchStatus, searchType, sort]);
 
   if (isLoading) {
     return (
@@ -34,7 +41,7 @@ const JobContainer = () => {
   return (
     <Wrapper>
       <h5>
-        {totalJobs}job{totalJobs > 1 && "s"} foundssss
+        {totalJobs} job{totalJobs > 1 && "s"} found
       </h5>
       <div className="jobs">
         {jobs.map((job) => {
