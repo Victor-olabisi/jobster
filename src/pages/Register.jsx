@@ -20,7 +20,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const { user, isLoading } = useSelector((store) => store.user);
-  console.log(isLoading);
+  // console.log(isLoading);
   // console.log(user);
 
   // console.log(user);

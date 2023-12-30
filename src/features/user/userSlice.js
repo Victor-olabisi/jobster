@@ -15,7 +15,7 @@ const initialState = {
   // user: setInterval(() => {
   //   getUserFromLocalStorage();
   // }, 5000),
-  user: getUserFromLocalStorage() || null,
+  user: getUserFromLocalStorage(),
 };
 
 export const updateUserProfile = createAsyncThunk(
@@ -61,6 +61,8 @@ export const loginUser = createAsyncThunk(
       return resp.data;
       // console.log(resp);
     } catch (error) {
+      // console.log(error);
+      toast.error('invalid credentials')
       return error;
     }
   }
@@ -118,6 +120,10 @@ const userSlice = createSlice({
       state.user = user;
       toast.success(`welcome back there ${user.name}`);
     },
+    [loginUser.rejected]: (state) => {
+      // toast.error('unable to login pls check your credentials')
+      state.isLoading = false; state.user= null
+     },
     // update user profile
     [updateUserProfile.pending]: (state) => {
       state.isLoading = true;
