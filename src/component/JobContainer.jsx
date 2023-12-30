@@ -33,7 +33,7 @@ const JobContainer = () => {
   if (jobs.length === 0) {
     return (
       <Wrapper>
-        <h2>no jOB to display </h2>
+        <h2>no jOb to display </h2>
       </Wrapper>
     );
   }
